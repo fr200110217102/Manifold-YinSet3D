@@ -1,0 +1,84 @@
+\documentclass{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{threeparttable}
+\usepackage{multirow}
+\usepackage{longtable}
+\geometry{a4paper,left=2cm,right=2cm,top=1.5cm,bottom=1cm}
+\newfontfamily\courier{Consolas}
+\lstset{linewidth=1.1\textwidth,
+		numbers=left, 
+		basicstyle=\small\courier,
+		numberstyle=\tiny\courier,  
+		keywordstyle=\color{blue}\courier,
+		%identifierstyle=\bf，
+		commentstyle=\it\color[cmyk]{1,0,1,0}\courier,
+		stringstyle=\it\color[RGB]{128,0,0}\courier,
+		%framexleftmargin=10mm,
+		frame=single,
+		backgroundcolor=\color[RGB]{245,245,244},
+		%escapeinside=``,
+		breaklines,
+		extendedchars=false,
+		xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+		tabsize=4,
+		showspaces=false
+		basicstyle=\small\courier
+	   }
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\title{论文翻译：使用参数伪流形由三角网格构造光滑曲面的新方法}
+\date{2023年11月30日}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	为了用光滑曲面拟合具有任意复杂拓扑的三角网格结构，我们提出了一种新的基于流形的模型。
+	我们的模型结合了前人设计的模型的大多数最佳特征，从而填补了它们的不足。
+	我们还构造了一个理论框架，证明了模型的正确性。
+	最后，我们通过几个例子证明了基于流形的模型的有效性。
+\end{abstract}
+
+\section{引入}
+	将具有保持拓扑性质和连续性的曲面拟合到具有任意复杂拓扑的多边形网格顶点的问题一直是一个重要的研究课题。
+	这个问题的主要困难在于，具有任意拓扑的网格通常不能在单个矩形区域上参数化。
+	现有的计算方法一般沿着多项式参数曲面的边界黏合在一起，
+	然而确保沿边界的连续性已被证明是一个难题，
+	因此大多数只能保证低阶（$C^2$及以下）连续性，
+	即使存在能构造高阶连续拟合的模型，也大多是复杂和难以实现的；
+	细分曲面是另一种被广泛研究的方法，它直观易于实现。
+	但很少有基于这种方法达到 $C^2$ 以上的构造，且这种方法很难保证奇点附近的连续性。
+	此外，对于 $k\geq 2$，生成 $C^k$ 曲面的细分方案不能像现有的 $C^1$ 细分方案那样简单。
+
+	不同于上述两种方法，由 Grimm 和 Hughes 开创的基于流形的模型
+	已被证明可以相对容易地对三角形和四边形网格拟合 $C^k$ 连续参数曲面，包括 $k=\infty$。
+	流形天然地具有任意光滑性，且其微分结构为我们提供了在曲面上求解方程的天然条件。
+	基于流形的模型还同时具有样条曲线、曲面的一些最重要的特性，例如对曲线形状和基函数的局部控制。
+
+	遗憾的是，现有的基于流形的模型都存在一些缺点，例如：
+	利用流形结构的定义过于复杂；
+	产生具有奇点的曲面，导致连续性阶数降低；
+	得到的曲面不是多项式参数（例如使用了指数函数）。
+	另一方面，某些构造更简单的模型和任意平滑的方法不能建立处理三角形网格的完整框架。
+
+	本文贡献：
+	\begin{enumerate}
+		\item 我们引入了一种基于流形的模型，将任意光滑（$C^\infty$连续）的曲面拟合到三角形网格上。
+			我们的模型结合了前人设计的模型的大多数最佳特征：
+			模型紧凑、简单；
+			不包含奇异点；
+			能对四边形网格做拟合；
+			
+	\end{enumerate}
+
+\end{document}
