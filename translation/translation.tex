@@ -35,6 +35,12 @@
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
 
+\newtheorem{Thm}{定理}
+\newtheorem{Def}{定义}
+\newtheorem{Lem}{引理}
+\newtheorem{Cor}{推论}
+\newtheorem{Rmk}{注记}
+
 \title{论文翻译：使用参数伪流形由三角网格构造光滑曲面的新方法}
 \date{2023年11月30日}
 
@@ -79,7 +85,149 @@
 			不包含奇异点；
 			能对四边形网格做拟合；
 			定义的曲面几何结构灵活。
-		\item 
+		\item 我们还简要描述了一个理论框架，为我们基于流形的构造的正确性提供了证明。
 	\end{enumerate}
+
+\section{理论基础}
+	简单来说，流形是局部类似于欧氏空间的空间，我们可以在其上进行类似欧氏空间中的微积分运算。
+	流形传统的处理方式是：每个流形 $\mathcal{M}$ 都配备了一个坐标图册，即一个坐标卡的集合 $\{(U_i,\varphi_i)\}_{i\in I}$。
+	坐标卡定义为有序对 $(U_i,\varphi_i)$，其中
+	$U_i\subset \mathcal{M}$，
+	$\varphi_i:U_i\rightarrow \varphi(U_i)\subset \mathbb{R}^n$。
+	要求：$\{U_i\}_{i\in I}$ 形成 $\mathcal{M}$ 的一个开覆盖；
+	$\{\varphi_i\}_{i\in I}$ 要满足相容性条件，
+	即对任意 $\varphi_1,\varphi_2\in \{\varphi_i\}_{i\in I}$，
+	转换函数 $\varphi_{12}=\varphi_2\circ \varphi_1^{-1}$ 和 $\varphi_{21}=\varphi_1\circ \varphi_2^{-1}$ 均为同胚。
+
+	传统的处理方式首先假设了流形的存在，我们不能通过这种方式来构造流形。
+	好在我们可以用一组参数化曲面和一组粘合映射以构造性的方式定义 $\mathcal{M}$。
+
+	\begin{Def}\label{PGM-def}
+		设 $n$ 为正整数，$k\geq 1$ 为正整数或 $k=\infty$，定义
+
+		\begin{equation}
+			\mathcal{G}=((\Omega_i)_{i\in I},(\Omega_{ij})_{(ij)\in I\times I},(\varphi_{ji})_{(i,j)\in K})
+		\end{equation}
+
+		$\mathcal{G}$ 满足下面的性质，$I,K$ 是可数指标集，$I$ 非空。
+
+		\begin{enumerate}
+			\item
+				对任意 $i\in i$，集合 $\Omega_i$ 为 $\mathbb{R}^n$ 上的非空开集（称为参数区域），
+				$\Omega_i$ 两两不交。
+			\item
+				对任意 $(i,j)\in I\times I$，集合 $\Omega_{ij}$ 是 $\Omega_i$ 的开子集。
+				特别地，$\Omega_{ii}=\Omega_i$，$\Omega_{ji}\neq \emptyset$ 当且仅当 $\Omega_{ij}\neq \emptyset$。
+				称非空集 $\Omega_{ij},i\neq j$ 为粘连区域。
+			\item
+				如果令 $K=\{(i,j)\in I\times I\|\Omega_{ij}\neq \emptyset\}$，则
+				对任意的 $(i,j)\in K$，$\varphi_{ij}:\Omega_{ij}\rightarrow \Omega_{ji}$ 是 $C^k$ 同胚，且满足下列条件：
+				\begin{enumerate}
+					\item 对任意 $i$，$\varphi_{ii}=\text{id}_{\Omega_i}$。
+					\item 对任意 $(i,j)\in K$，$\varphi_{ij}=\varphi_{ji}^{-1}$。
+					\item
+						对所有 $i,j,k$，若 $\Omega_{ji}\cap \Omega_{jk}\neq \emptyset$，则
+						$\varphi_{ji}^{-1}(\Omega_{ji}\cap \Omega{jk})\subset \Omega_{ik}$ 且
+						对任意 $x\in \varphi_{ji}^{-1}(\Omega_{ji}\cap \Omega_{jk})$ 均有 $\varphi_{ki}(x)=\varphi_{kj}\circ\varphi_{ji}(x)$ 
+				\end{enumerate}
+			\item
+				对任意的 $(i,j)\in K,i\neq j$，任意 $x\in \partial(\Omega_{ij})\cap \Omega_i,y\in \partial(\Omega_{ji})\cap \Omega_j$，
+				存在开球 $V_x,V_y$ 使得 $\varphi_{ji}(V_x\cap \Omega_{ij})\cap (V_y\cap \Omega_{ji})=\emptyset$。
+		\end{enumerate}
+	\end{Def}
+
+	传统的定义和基于粘合集的定义中某些概念有直接的对应关系：
+
+	\begin{itemize}
+		\item 每个参数区域都是 $\Omega_i$ 都为一个坐标卡在 $\mathbb{R}^n$ 中的像 $\varphi_i(U_i)$。
+		\item 每个粘连区域 $\Omega_{ij}\subset \Omega_i$ 都为坐标卡的重叠区域在 $\mathbb{R}^n$ 中的像 $\varphi_i(U_i\cap U_j)$。
+		\item 每个转换函数 $\varphi_{ij}:\Omega_{ij}\rightarrow \Omega_{ji}$ 都为坐标卡之间的转换函数。
+	\end{itemize}
+
+	上面的定义 3(c) 称为轮换条件，它在下面的定理 1 的证明中非常重要。
+
+	依照微分流形的研究惯例，我们假设流形是 Hausdorff 的。
+
+	\begin{Thm}\label{PGM-thm}
+		对任意粘合集 $\mathcal{G} = ((\Omega_i)_{i\in I},(\Omega_{ij})_{(i,j)\in I\times I},(\varphi_{ji})_{(i,j)\in K})$，
+		存在一个 $n$ 维 $C^k$ 流形 $M_\mathcal{G}$，其转换函数为全体 $\varphi_{ji}$。
+	\end{Thm}
+
+	遗憾的是，\ref{thm1} 的证明是非构造性的，即我们无法直接得到由粘合映射确定的流形的集合信息。
+	它甚至可能不可定向或不紧致。
+	但我们要解决的实际问题是要对一个三角形网格近似一个紧流形。
+	事实证明，我们总可以从任意给定的粘合集定义“参数伪流形”。当某些条件成立时，这个伪流形在 $\mathbb{R}^3$ 中的图像为曲面。
+
+	\begin{Def}\label{PPM-def}
+		设 $n>d\geq 1$ 为整数，$k\geq 1$ 为整数或 $k=\infty$，
+		$\mathbb{R}^n$ 中 $d$ 维 $C^k$ 参数伪流形定义如下：
+		\begin{equation}
+			\mathcal{M}=(\mathcal{G},(\theta_i)_{i\in I}).
+		\end{equation}
+		$\mathcal{G}$ 见 \ref{def1}，$\theta_i:\Omega_i\rightarrow \mathbb{R}^n$ 称为参数化，是 $C^k$ 函数，满足
+		对任意的 $(i,j)\in K$ 均有 $\theta_i=\theta_j\circ \varphi_{ji}$。
+
+		称 $\mathcal{M}=\cup_{i\in I}\theta_i(\Omega_i) \subset \mathbb{R}^n$ 为参数伪流形的像。
+
+		特别地，当 $d=2,n=3$ 时，我们称 $\mathcal{M}$ 为参数伪曲面（PPS）。
+		如果我们要求 $\theta_i$ 是双射且进一步满足
+		对任意 $(i,j)\in K$，$\theta_i(\Omega_i)\cap \theta_j(\Omega_j) = \theta_i(\Omega_{ij}) = \theta_j(\Omega_{ji})$，
+		且对任意 $(i,j)\notin K$， $\theta_i(\Omega_i)\cap \theta_j(\Omega_j) = \emptyset$，
+		则 $\mathcal{M}$ 一定是 $\mathbb{R}^3$ 中的一张曲面。
+	\end{Def}
+
+\section{参数伪曲面（PPS）的构造}
+	我们的目标是构造一个曲面 $S\subset \mathbb{R}^3$ 拟合给定的三角网格 $\mathcal{T}$
+	且保持它的基空间 $|\mathcal{T}|$ （$\mathcal{T}$ 的顶点、边和三角面之并）的拓扑性质。
+	我们还假设 $|\mathcal{T}|$ 是 $\mathbb{R}^3$ 中具有空边界的曲面。
+	最后，为构造 $S$，我们的构造定义了 PPS 的一组粘合集和一组参数化。
+
+	其中，粘合集
+	$\mathcal{G} = ((\Omega_i)_{i\in I},(\Omega_{ij})_{(i,j)\in I\times I},(\varphi_{ji})_{(i,j)\in K})$
+	通过 $\mathcal{T}$ 的元素定义；
+	参数化 $\theta_i:\Omega_i\rightarrow \theta(\Omega_i)\subset \mathbb{R}^3,i\in I$
+	通过 $|\mathcal{T}|$ 定义。
+	下面我们给出 $\mathcal{G}$ 和 $(\theta_i)_{i\in I}$ 的具体构造方法。
+
+	\subsection{粘合集的构造}
+		以下记 $I=\{u|u \in V(\mathcal{T})\}$。
+		为构造粘合集 $\mathcal{G}$，我们需要定义它的参数区域、粘连区域和转换函数。
+		它们通过两个概念定义：一个\textbf{P-多边形}和它的\textbf{规范三角剖分}，以及一个复合双射函数。
+		在我们描述这些概念之前，我们先对一些符号进行说明。
+
+		\begin{Rmk}
+			我们接下来要定义的记号都与 $\mathcal{T}$ 中的顶点（记为 $u$）或与边（记为 $[u,v]$）有关。
+			因此，我们使用下标 $u$ 表示与 $u$ 有关的元素；
+			使用下表 $(u,v),(v,u),uv,vu$ 表示与 $[u,v]$ 有关的元素。
+		\end{Rmk}
+
+		\begin{Def}
+			对所有 $u\in I$，定义参数区域 $\Omega_u$ 为
+			\begin{equation}
+				\Omega_u=\{(x,y)\in \mathbb{R}^2|x^2+y^2<\cos^2(\dfrac{\pi}{m_u})\}
+			\end{equation}
+			其中， $m_u$ 是 $u$ 的权值。
+			对任意两点 $u,v\in I$，我们假设 $\Omega_u$ 和 $\Omega_v$ 在不相交的两个 $\mathbb{R}^2$ 平面的副本中，
+			因此 $\Omega_u\cap \Omega_v=\emptyset$。
+			且 \ref{PGM-def} 中的条件 1 成立。
+		\end{Def}
+		
+		为建立粘合区域和转换函数，我们定义了\textbf{P-多边形}及其\textbf{规范三角剖分}的概念，
+		以及由两个解析的旋转函数和双反射函数复合而成的双射。
+		对 $\mathcal{T}$ 的每个顶点 $u$，与 $u$ 对应的多边形 $P_u$ 的顶点为
+		$u'_i=(\cos(\dfrac{2\pi \cdot i}{m_u}),\sin(\dfrac{2\pi \cdot i}{m_u}))$，
+		其中 $i=0,1,\dots,m_u-1$，$m_u$。即 $P_u$ 是正 $m_u$ 边形。
+		我们假设 $P_u$ 在包含 $\Omega_u$ 的 $\mathbb{R}^2$ 副本内部。
+		所以，$\Omega_u$ 是内接在 $P_u$ 中的圆 $C_u$ 的内部。即 $\Omega_u = \text{int}(C_u)$。
+
+		我们可以通过添加 $m_u$ 条对角线和顶点 $u'=(0,0)$ 将多边形 $P_u$ 剖分为 $m_u$ 个三角形。
+		每条对角线连接 $u'$ 和 $P_u$ 的一个顶点 $u'_i$。
+		这样得到的三角剖分记作 $T_u$，称为 $P_u$ 的规范三角剖分。
+		记 $T_u$ 的顶点集合为 $V(T_u)$，
+		令 $\mathcal{N}(u,\mathcal{T})$ 为 $u$ 及 $\mathcal{T}$ 中与 $u$ 相连的点之并。
+		则可定义双射 $s_u:\mathcal{N}(u,\mathcal{T})\rightarrow V(T_u)$，满足 $s_u(u)=u'$
+		且 $[u,u_i,u_{i+1}]$ 是 $\mathcal{T}$ 中的三角形，
+		当且仅当 $[s_u(u)=u',s_u(u_i),s_u(u_{i+1})]$ 是 $T_u$ 中的一个三角形（这里的 $+1$ 是模 $m_u$ 意义下的）。
+		我们可以将这个双射 $s_u$ 延拓到
 
 \end{document}
