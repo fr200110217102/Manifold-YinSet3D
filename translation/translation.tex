@@ -128,7 +128,8 @@
 					\item
 						对所有 $i,j,k$，若 $\Omega_{ji}\cap \Omega_{jk}\neq \emptyset$，则
 						$\varphi_{ji}^{-1}(\Omega_{ji}\cap \Omega{jk})\subset \Omega_{ik}$ 且
-						对任意 $x\in \varphi_{ji}^{-1}(\Omega_{ji}\cap \Omega_{jk})$ 均有 $\varphi_{ki}(x)=\varphi_{kj}\circ\varphi_{ji}(x)$ 
+						对任意 $x\in \varphi_{ji}^{-1}(\Omega_{ji}\cap \Omega_{jk})$
+						均有 $\varphi_{ki}(x)=\varphi_{kj}\circ\varphi_{ji}(x)$ 
 				\end{enumerate}
 			\item
 				对任意的 $(i,j)\in K,i\neq j$，任意 $x\in \partial(\Omega_{ij})\cap \Omega_i,y\in \partial(\Omega_{ji})\cap \Omega_j$，
@@ -153,7 +154,7 @@
 		存在一个 $n$ 维 $C^k$ 流形 $M_\mathcal{G}$，其转换函数为全体 $\varphi_{ji}$。
 	\end{Thm}
 
-	遗憾的是，\ref{thm1} 的证明是非构造性的，即我们无法直接得到由粘合映射确定的流形的集合信息。
+	遗憾的是，定理 \ref{PGM-thm} 的证明是非构造性的，即我们无法直接得到由粘合映射确定的流形的集合信息。
 	它甚至可能不可定向或不紧致。
 	但我们要解决的实际问题是要对一个三角形网格近似一个紧流形。
 	事实证明，我们总可以从任意给定的粘合集定义“参数伪流形”。当某些条件成立时，这个伪流形在 $\mathbb{R}^3$ 中的图像为曲面。
@@ -164,7 +165,7 @@
 		\begin{equation}
 			\mathcal{M}=(\mathcal{G},(\theta_i)_{i\in I}).
 		\end{equation}
-		$\mathcal{G}$ 见 \ref{def1}，$\theta_i:\Omega_i\rightarrow \mathbb{R}^n$ 称为参数化，是 $C^k$ 函数，满足
+		$\mathcal{G}$ 见定义 \ref{PGM-def}，$\theta_i:\Omega_i\rightarrow \mathbb{R}^n$ 称为参数化，是 $C^k$ 函数，满足
 		对任意的 $(i,j)\in K$ 均有 $\theta_i=\theta_j\circ \varphi_{ji}$。
 
 		称 $\mathcal{M}=\cup_{i\in I}\theta_i(\Omega_i) \subset \mathbb{R}^n$ 为参数伪流形的像。
@@ -189,7 +190,7 @@
 	通过 $|\mathcal{T}|$ 定义。
 	下面我们给出 $\mathcal{G}$ 和 $(\theta_i)_{i\in I}$ 的具体构造方法。
 
-	\subsection{粘合集的构造}
+	\subsection{粘合集 $\mathcal{G}$ 的构造}
 		以下记 $I=\{u|u \in V(\mathcal{T})\}$。
 		为构造粘合集 $\mathcal{G}$，我们需要定义它的参数区域、粘连区域和转换函数。
 		它们通过两个概念定义：一个\textbf{P-多边形}和它的\textbf{规范三角剖分}，以及一个复合双射函数。
@@ -204,12 +205,12 @@
 		\begin{Def}
 			对所有 $u\in I$，定义参数区域 $\Omega_u$ 为
 			\begin{equation}
-				\Omega_u=\{(x,y)\in \mathbb{R}^2|x^2+y^2<\cos^2(\dfrac{\pi}{m_u})\}
+				\Omega_u=\{(x,y)\in \mathbb{R}^2|x^2+y^2<\cos^2(\dfrac{\pi}{m_u})\}.
 			\end{equation}
 			其中， $m_u$ 是 $u$ 的权值。
 			对任意两点 $u,v\in I$，我们假设 $\Omega_u$ 和 $\Omega_v$ 在不相交的两个 $\mathbb{R}^2$ 平面的副本中，
 			因此 $\Omega_u\cap \Omega_v=\emptyset$。
-			且 \ref{PGM-def} 中的条件 1 成立。
+			且定义 \ref{PGM-def} 中的条件 1 成立。
 		\end{Def}
 		
 		为建立粘合区域和转换函数，我们定义了\textbf{P-多边形}及其\textbf{规范三角剖分}的概念，
@@ -228,6 +229,59 @@
 		则可定义双射 $s_u:\mathcal{N}(u,\mathcal{T})\rightarrow V(T_u)$，满足 $s_u(u)=u'$
 		且 $[u,u_i,u_{i+1}]$ 是 $\mathcal{T}$ 中的三角形，
 		当且仅当 $[s_u(u)=u',s_u(u_i),s_u(u_{i+1})]$ 是 $T_u$ 中的一个三角形（这里的 $+1$ 是模 $m_u$ 意义下的）。
-		我们可以将这个双射 $s_u$ 延拓到
+		我们可以将这个双射 $s_u$ 延拓到三角形之间的映射。
+		事实上，若 $\sigma = [u,u_i,u_{i+1}]$ 是 $\mathcal{T}$ 中的一个三角形，
+		则 $s_u(\sigma) = [u',s_u(u),s_u(u_{i+1})]$ 是它在 $T_u$ 中相应的三角形。
+		后文中除非我们显式表明，我们都记 $s_u(v)=v',v\in \mathcal{N}(u,\mathcal{T})$。
+
+		对 $u\in I,p\in \mathcal{R}^2-\{0\}$，令
+		\begin{equation}
+			g_u:\mathbb{R}^2-\{0\}\rightarrow \mathbb{R}^2-\{0\},g_u(p) = \Pi^{-1}\circ f_u\circ \Pi(p).
+		\end{equation}
+		其中 $\Pi:\mathbb{R}^2\rightarrow (-\pi,\pi]\times \mathbb{R}_+$ 是极坐标变换，
+		$f_u:(-\pi,\pi]\times \mathbb{R}_+\rightarrow (-\pi,\pi]\times \mathbb{R}_+$ 为
+		\begin{equation}
+			f_u(\theta,r) = (\dfrac{m_u}6 \cdot \theta, \dfrac{\cos(\frac{\pi}6)}{\cos(\frac{\pi}{m_u})}\cdot r).
+		\end{equation}
+		其中，$(\theta,r)=\Pi(p)$ 是 $p$ 的极坐标。
+		函数 $g_u$ 直观的解释如下：
+		它将 $C_u$ 的扇形区域 $A$ 的内部映射到半径为 $\cos(\dfrac{\pi}6)$、中心在 $(0,0)$ 的圆中的扇形区域 $B$ 中，
+		$A$ 包含 $(0,0)$ 和所有极坐标在 $[-\dfrac{2\pi}{m_u},\dfrac{2\pi}{m_u}]\times (0,\cos(\dfrac{\pi}{m_u}))$ 内的点。
+		$B$ 包含 $(0,0)$ 和所有极坐标在 $(\beta,s)\in [-\dfrac{-\pi}3,\dfrac{\pi}3]\times (0,\cos(\dfrac{\pi}6))$ 内的点。
+		我们称 $B$ 是规范扇形。
+
+		注意到 $g_u$ 是一个双射。其逆 $g_u^{-1}$ 为
+		\begin{equation}
+			g_u(p) = \Pi^{-1}\circ f_u^{-1}\circ \Pi(p).
+		\end{equation}
+
+		对每个 $q\in \mathbb{R}^2-\{0\}$，有
+		\begin{equation}
+			f_u^{-1}((\beta,s)) = (\dfrac 6{m_u}\cdot \beta,\dfrac{\cos(\frac{\pi}{\mu})}{\cos(\frac{\pi}6)}\cdot s).
+		\end{equation}
+
+		其中 $(\beta,s) = \Pi(q)$ 是 $q$ 的极坐标。
+
+		令 $h:\mathbb{R}^2\rightarrow \mathbb{R}^2$ 定义为
+		\begin{equation}
+			h(p) = h((x,y)) = (1-x, -y)
+		\end{equation}
+
+		对每个 $p\in \mathbb{R}^2$，设其平面坐标为 $(x,y)$，
+		函数 $h$ 是一个\textbf{“双反射”}：$p=(x,y)$ 依次被直线 $x=0.5$ 和 $y=0$ 反射。
+
+		对任意两个顶点 $u,v\in \mathcal{T}$，$[u,v]$ 是一条边，令
+		$g_{(u,v)}: C_u-\{0\}\rightarrow g_{(u,v)}(C_u-\{0\})$
+		为
+		\begin{equation}
+			g_{(u,v)}(p) = R_{(v,u)}^{-1}\circ g_v^{-1}\circ h\circ g_u\circ R_{(u,v)}(p).
+		\end{equation}
+		对任意 $p\in C_u-\{0\}$。
+		其中，$R_{(u,v)}$ 是绕 $(0,0)$ 的旋转变换，
+		将 $[s_u(u) = u', s_u(v)]$ 映射到 $[u',u'_0]$。
+		同理，$R_{(u,v)}^{-1}$ 也是绕 $(0,0)$ 的旋转变换，
+		将 $[s_v(v) = v', v'_0]$ 映射到 $[v',v'_j]$，其中 $j$ 满足 $s_v(u) = v'_j$。
+
+		
 
 \end{document}
