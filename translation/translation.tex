@@ -40,6 +40,7 @@
 \newtheorem{Lem}{引理}
 \newtheorem{Cor}{推论}
 \newtheorem{Rmk}{注记}
+\newtheorem{Algo}{算法}
 
 \title{论文翻译：使用参数伪流形由三角网格构造光滑曲面的新方法}
 \date{2023年11月30日}
@@ -215,82 +216,105 @@
 		
 		为建立粘合区域和转换函数，我们定义了\textbf{P-多边形}及其\textbf{规范三角剖分}的概念，
 		以及由两个解析的旋转函数和双反射函数复合而成的双射。
-		对 $\mathcal{T}$ 的每个顶点 $u$，与 $u$ 对应的多边形 $P_u$ 的顶点为
-		$u'_i=(\cos(\dfrac{2\pi \cdot i}{m_u}),\sin(\dfrac{2\pi \cdot i}{m_u}))$，
-		其中 $i=0,1,\dots,m_u-1$，$m_u$。即 $P_u$ 是正 $m_u$ 边形。
-		我们假设 $P_u$ 在包含 $\Omega_u$ 的 $\mathbb{R}^2$ 副本内部。
-		所以，$\Omega_u$ 是内接在 $P_u$ 中的圆 $C_u$ 的内部。即 $\Omega_u = \text{int}(C_u)$。
+		\begin{Def}
+			对 $\mathcal{T}$ 的每个顶点 $u$，与 $u$ 对应的\textbf{P-多边形} $P_u$ 的顶点为
+			$u'_i=(\cos(\dfrac{2\pi \cdot i}{m_u}),\sin(\dfrac{2\pi \cdot i}{m_u}))$，
+			其中 $i=0,1,\dots,m_u-1$，$m_u$。即 $P_u$ 是正 $m_u$ 边形。
+			我们假设 $P_u$ 在包含 $\Omega_u$ 的 $\mathbb{R}^2$ 副本内部。
+			所以，$\Omega_u$ 是内接在 $P_u$ 中的圆 $C_u$ 的内部。即 $\Omega_u = \text{int}(C_u)$。
+		\end{Def}
 
-		我们可以通过添加 $m_u$ 条对角线和顶点 $u'=(0,0)$ 将多边形 $P_u$ 剖分为 $m_u$ 个三角形。
-		每条对角线连接 $u'$ 和 $P_u$ 的一个顶点 $u'_i$。
-		这样得到的三角剖分记作 $T_u$，称为 $P_u$ 的规范三角剖分。
-		记 $T_u$ 的顶点集合为 $V(T_u)$，
-		令 $\mathcal{N}(u,\mathcal{T})$ 为 $u$ 及 $\mathcal{T}$ 中与 $u$ 相连的点之并。
-		则可定义双射 $s_u:\mathcal{N}(u,\mathcal{T})\rightarrow V(T_u)$，满足 $s_u(u)=u'$
-		且 $[u,u_i,u_{i+1}]$ 是 $\mathcal{T}$ 中的三角形，
-		当且仅当 $[s_u(u)=u',s_u(u_i),s_u(u_{i+1})]$ 是 $T_u$ 中的一个三角形（这里的 $+1$ 是模 $m_u$ 意义下的）。
-		我们可以将这个双射 $s_u$ 延拓到三角形之间的映射。
-		事实上，若 $\sigma = [u,u_i,u_{i+1}]$ 是 $\mathcal{T}$ 中的一个三角形，
-		则 $s_u(\sigma) = [u',s_u(u),s_u(u_{i+1})]$ 是它在 $T_u$ 中相应的三角形。
-		后文中除非我们显式表明，我们都记 $s_u(v)=v',v\in \mathcal{N}(u,\mathcal{T})$。
+		\begin{Def}
+			我们可以通过添加 $m_u$ 条对角线和顶点 $u'=(0,0)$ 将多边形 $P_u$ 剖分为 $m_u$ 个三角形。
+			每条对角线连接 $u'$ 和 $P_u$ 的一个顶点 $u'_i$。
+			这样得到的三角剖分记作 $T_u$，称为 $P_u$ 的规范三角剖分。				
+		\end{Def}
 
-		对 $u\in I,p\in \mathcal{R}^2-\{0\}$，令
-		\begin{equation}
-			g_u:\mathbb{R}^2-\{0\}\rightarrow \mathbb{R}^2-\{0\},g_u(p) = \Pi^{-1}\circ f_u\circ \Pi(p).
-		\end{equation}
-		其中 $\Pi:\mathbb{R}^2\rightarrow (-\pi,\pi]\times \mathbb{R}_+$ 是极坐标变换，
-		$f_u:(-\pi,\pi]\times \mathbb{R}_+\rightarrow (-\pi,\pi]\times \mathbb{R}_+$ 为
-		\begin{equation}
-			f_u(\theta,r) = (\dfrac{m_u}6 \cdot \theta, \dfrac{\cos(\frac{\pi}6)}{\cos(\frac{\pi}{m_u})}\cdot r).
-		\end{equation}
-		其中，$(\theta,r)=\Pi(p)$ 是 $p$ 的极坐标。
-		函数 $g_u$ 直观的解释如下：
-		它将 $C_u$ 的扇形区域 $A$ 的内部映射到半径为 $\cos(\dfrac{\pi}6)$、中心在 $(0,0)$ 的圆中的扇形区域 $B$ 中，
-		$A$ 包含 $(0,0)$ 和所有极坐标在 $[-\dfrac{2\pi}{m_u},\dfrac{2\pi}{m_u}]\times (0,\cos(\dfrac{\pi}{m_u}))$ 内的点。
-		$B$ 包含 $(0,0)$ 和所有极坐标在 $(\beta,s)\in [-\dfrac{-\pi}3,\dfrac{\pi}3]\times (0,\cos(\dfrac{\pi}6))$ 内的点。
-		我们称 $B$ 是规范扇形。
+		\begin{Def}
+			记 $T_u$ 的顶点集合为 $V(T_u)$，
+			令 $\mathcal{N}(u,\mathcal{T})$ 为 $u$ 及 $\mathcal{T}$ 中与 $u$ 相连的点之并。
+			则可定义双射 $s_u:\mathcal{N}(u,\mathcal{T})\rightarrow V(T_u)$，满足 $s_u(u)=u'$
+			且 $[u,u_i,u_{i+1}]$ 是 $\mathcal{T}$ 中的三角形，
+			当且仅当 $[s_u(u)=u',s_u(u_i),s_u(u_{i+1})]$ 是 $T_u$ 中的一个三角形（这里的 $+1$ 是模 $m_u$ 意义下的）。
+			我们可以将这个双射 $s_u$ 延拓到三角形之间的映射。
+			事实上，若 $\sigma = [u,u_i,u_{i+1}]$ 是 $\mathcal{T}$ 中的一个三角形，
+			则 $s_u(\sigma) = [u',s_u(u),s_u(u_{i+1})]$ 是它在 $T_u$ 中相应的三角形。
+			后文中除非我们显式表明，我们都记 $s_u(v)=v',v\in \mathcal{N}(u,\mathcal{T})$。
+		\end{Def}
 
-		注意到 $g_u$ 是一个双射。其逆 $g_u^{-1}$ 为
-		\begin{equation}
-			g_u(p) = \Pi^{-1}\circ f_u^{-1}\circ \Pi(p).
-		\end{equation}
+		\begin{Def}
+			对 $u\in I,p\in \mathcal{R}^2-\{0\}$，令
+			\begin{equation}
+				g_u:\mathbb{R}^2-\{0\}\rightarrow \mathbb{R}^2-\{0\},g_u(p) = \Pi^{-1}\circ f_u\circ \Pi(p).
+			\end{equation}
+			其中 $\Pi:\mathbb{R}^2\rightarrow (-\pi,\pi]\times \mathbb{R}_+$ 是极坐标变换，
+			$f_u:(-\pi,\pi]\times \mathbb{R}_+\rightarrow (-\pi,\pi]\times \mathbb{R}_+$ 为
+			\begin{equation}
+				f_u(\theta,r) = (\dfrac{m_u}6 \cdot \theta, \dfrac{\cos(\frac{\pi}6)}{\cos(\frac{\pi}{m_u})}\cdot r).
+			\end{equation}
+			其中，$(\theta,r)=\Pi(p)$ 是 $p$ 的极坐标。				
+		\end{Def}
 
-		对每个 $q\in \mathbb{R}^2-\{0\}$，有
-		\begin{equation}
-			f_u^{-1}((\beta,s)) = (\dfrac 6{m_u}\cdot \beta,\dfrac{\cos(\frac{\pi}{\mu})}{\cos(\frac{\pi}6)}\cdot s).
-		\end{equation}
+		\begin{Rmk}
+			函数 $g_u$ 直观的解释如下：
+			它将 $C_u$ 的扇形区域 $A$ 的内部映射到半径为 $\cos(\dfrac{\pi}6)$、中心在 $(0,0)$ 的圆中的扇形区域 $B$ 中，
+			$A$ 包含 $(0,0)$ 和所有极坐标在 $[-\dfrac{2\pi}{m_u},\dfrac{2\pi}{m_u}]\times (0,\cos(\dfrac{\pi}{m_u}))$ 内的点。
+			$B$ 包含 $(0,0)$ 和所有极坐标在 $(\beta,s)\in [-\dfrac{-\pi}3,\dfrac{\pi}3]\times (0,\cos(\dfrac{\pi}6))$ 内的点。
+			我们称 $B$ 是规范扇形。
+		\end{Rmk}
 
-		其中 $(\beta,s) = \Pi(q)$ 是 $q$ 的极坐标。
+		\begin{Rmk}
+			注意到 $g_u$ 是一个双射。其逆 $g_u^{-1}$ 为
+			\begin{equation}
+				g_u(p) = \Pi^{-1}\circ f_u^{-1}\circ \Pi(p).
+			\end{equation}
+	
+			对每个 $q\in \mathbb{R}^2-\{0\}$，有
+			\begin{equation}
+				f_u^{-1}((\beta,s)) = (\dfrac 6{m_u}\cdot \beta,\dfrac{\cos(\frac{\pi}{\mu})}{\cos(\frac{\pi}6)}\cdot s).
+			\end{equation}
+	
+			其中 $(\beta,s) = \Pi(q)$ 是 $q$ 的极坐标。
+		\end{Rmk}
 
-		令 $h:\mathbb{R}^2\rightarrow \mathbb{R}^2$ 定义为
-		\begin{equation}
-			h(p) = h((x,y)) = (1-x, -y)
-		\end{equation}
+		\begin{Def}
+			令 $h:\mathbb{R}^2\rightarrow \mathbb{R}^2$ 定义为
+			\begin{equation}
+				h(p) = h((x,y)) = (1-x, -y)
+			\end{equation}
+		\end{Def}
 
-		对每个 $p\in \mathbb{R}^2$，设其平面坐标为 $(x,y)$，
-		函数 $h$ 是一个\textbf{“双反射”}：$p=(x,y)$ 依次被直线 $x=0.5$ 和 $y=0$ 反射。
+		\begin{Rmk}
+			对每个 $p\in \mathbb{R}^2$，设其平面坐标为 $(x,y)$，
+			函数 $h$ 是一个\textbf{“双反射”}：$p=(x,y)$ 依次被直线 $x=0.5$ 和 $y=0$ 反射。
+	
+			对任意两个顶点 $u,v\in \mathcal{T}$，$[u,v]$ 是一条边，令				
+		\end{Rmk}
 
-		对任意两个顶点 $u,v\in \mathcal{T}$，$[u,v]$ 是一条边，令
-		$g_{(u,v)}: C_u-\{0\}\rightarrow g_{(u,v)}(C_u-\{0\})$
-		为
-		\begin{equation}
-			g_{(u,v)}(p) = R_{(v,u)}^{-1}\circ g_v^{-1}\circ h\circ g_u\circ R_{(u,v)}(p).
-		\end{equation}
-		对任意 $p\in C_u-\{0\}$。
-		其中，$R_{(u,v)}$ 是绕 $(0,0)$ 的旋转变换，
-		将 $[s_u(u) = u', s_u(v)]$ 映射到 $[u',u'_0]$。
-		同理，$R_{(u,v)}^{-1}$ 也是绕 $(0,0)$ 的旋转变换，
-		将 $[s_v(v) = v', v'_0]$ 映射到 $[v',v'_j]$，其中 $j$ 满足 $s_v(u) = v'_j$。
+		\begin{Def}
+			$g_{(u,v)}: C_u-\{0\}\rightarrow g_{(u,v)}(C_u-\{0\})$
+			为
+			\begin{equation}
+				g_{(u,v)}(p) = R_{(v,u)}^{-1}\circ g_v^{-1}\circ h\circ g_u\circ R_{(u,v)}(p).
+			\end{equation}
+			对任意 $p\in C_u-\{0\}$。
+			其中，$R_{(u,v)}$ 是绕 $(0,0)$ 的旋转变换，
+			将 $[s_u(u) = u', s_u(v)]$ 映射到 $[u',u'_0]$。
+			同理，$R_{(u,v)}^{-1}$ 也是绕 $(0,0)$ 的旋转变换，
+			将 $[s_v(v) = v', v'_0]$ 映射到 $[v',v'_j]$，其中 $j$ 满足 $s_v(u) = v'_j$。
+		\end{Def}
 
-		函数 $g_{(u,v)}$ 的直观解释如下：
-		它将 $C_u$ 的扇形区域 $A$ 的透镜形子集映射到 $C_v$ 的扇形区域 $B$ 的透镜形子集中。
-		$A$ 和 $B$ 关系如下：
-		设 $w$ 和 $z$ 满足 $[u,v,w]$ 和 $[u,v,z]$ 是 $\mathcal{T}$ 中公共边为 $[u,v]$ 的两个三角形。
-		则扇形 $A$ 是 $C_u$ 包含四边形 $[s_u(u)=u',s_u(w),s_u(v),s_u(z)]$ 的扇形区域，
-		扇形 $B$ 是 $C_v$ 包含四边形 $[s_v(v)=v',s_v(z),s_v(u),s_v(w)]$ 的扇形区域。
-		函数 $g_{(u,v)}$ 同样是一个双射，且其逆 $g_{(u,v)}^{-1}$ 等于 $g_{(v,u)}$。
-		
-		$g_{(u,v)}$ 在粘连区域和转换函数的定义中有重要作用。
+		\begin{Rmk}
+			函数 $g_{(u,v)}$ 的直观解释如下：
+			它将 $C_u$ 的扇形区域 $A$ 的透镜形子集映射到 $C_v$ 的扇形区域 $B$ 的透镜形子集中。
+			$A$ 和 $B$ 关系如下：
+			设 $w$ 和 $z$ 满足 $[u,v,w]$ 和 $[u,v,z]$ 是 $\mathcal{T}$ 中公共边为 $[u,v]$ 的两个三角形。
+			则扇形 $A$ 是 $C_u$ 包含四边形 $[s_u(u)=u',s_u(w),s_u(v),s_u(z)]$ 的扇形区域，
+			扇形 $B$ 是 $C_v$ 包含四边形 $[s_v(v)=v',s_v(z),s_v(u),s_v(w)]$ 的扇形区域。
+			函数 $g_{(u,v)}$ 同样是一个双射，且其逆 $g_{(u,v)}^{-1}$ 等于 $g_{(v,u)}$。
+			
+			$g_{(u,v)}$ 在粘连区域和转换函数的定义中有重要作用。				
+		\end{Rmk}
 
 		\begin{Def}\label{GD-def}
 			对任意 $u,v\in I$，定义粘合区域 $\Omega_{uv}$ 如下：
@@ -361,56 +385,102 @@
 			称 $\psi_u$ 的阶数为 $(m_u+1,m_u+1)$。
 		\end{Def}
 
-		我们通过求解最小二乘问题来确定控制点 $\{b_{j,k}^u\}$。
-		事实上，$\{b_{j,k}^u\}$ 应该唯一确定一个贝塞尔曲面，
-		使得它是集合 $P$ 的最小二乘意义下的最佳逼近。
-		$P$ 是一个点对集合 $\{q,p|q\in P_u,p\in S'\}$，
-		我们迭代计算 $P$。即
-		
-		\begin{enumerate}
-			\item 初始 $P=\emptyset$。
-			\item
-				对 $\psi_u$ 的定义域 $\square_u = [-L,L]^2$ 均匀采样 $4(m_u+1)$ 个点得到集合 $Q\subset P_u$。
-				注意 $\square_u$ 是最小的包含 $\Omega_u$ 的四边形，
-				还要注意 $\square_u$ 均匀采样得到的点将包含不在 $P_u$ 中的点。
-				这些点将不放入 $Q$ 中。
-			\item
-				对每个 $q\in Q$，我们找到三角形 $\tau \in \mathcal{T}$ 使得
-				$q$ 包含于三角形 $s_u(\tau)\in T_u$ 中。
-			\item
-				计算 $q$ 相对于 $s_u(\tau)$ 的重心坐标 $(\lambda,\nu,\eta)$，
-				令 $r=\lambda a+\nu b+\eta c\in \triangle=[a,b,c]$，
-				$\triangle$ 是本节开头定义的 $b_{\sigma}$ 的公共定义域。
-			\item
-				计算 $p=b_{\tau}(r)$，将点对 $(q,p)$ 加入 $P$ 中。
-		\end{enumerate}
-
-		当 $P$ 被计算出之后，我们使用标准最小二乘算法计算 $\{b_{j,k}^u\}$ 来拟合曲面。
+		\begin{Algo}
+			我们通过求解最小二乘问题来确定控制点 $\{b_{j,k}^u\}$。
+			事实上，$\{b_{j,k}^u\}$ 应该唯一确定一个贝塞尔曲面，
+			使得它是集合 $P$ 的最小二乘意义下的最佳逼近。
+			$P$ 是一个点对集合 $\{q,p|q\in P_u,p\in S'\}$，
+			我们迭代计算 $P$。即
+			
+			\begin{enumerate}
+				\item 初始 $P=\emptyset$。
+				\item
+					对 $\psi_u$ 的定义域 $\square_u = [-L,L]^2$ 均匀采样 $4(m_u+1)$ 个点得到集合 $Q\subset P_u$。
+					注意 $\square_u$ 是最小的包含 $\Omega_u$ 的四边形，
+					还要注意 $\square_u$ 均匀采样得到的点将包含不在 $P_u$ 中的点。
+					这些点将不放入 $Q$ 中。
+				\item
+					对每个 $q\in Q$，我们找到三角形 $\tau \in \mathcal{T}$ 使得
+					$q$ 包含于三角形 $s_u(\tau)\in T_u$ 中。
+				\item
+					计算 $q$ 相对于 $s_u(\tau)$ 的重心坐标 $(\lambda,\nu,\eta)$，
+					令 $r=\lambda a+\nu b+\eta c\in \triangle=[a,b,c]$，
+					$\triangle$ 是本节开头定义的 $b_{\sigma}$ 的公共定义域。
+				\item
+					计算 $p=b_{\tau}(r)$，将点对 $(q,p)$ 加入 $P$ 中。
+			\end{enumerate}
+	
+			当 $P$ 被计算出之后，我们使用标准最小二乘算法计算 $\{b_{j,k}^u\}$ 来拟合曲面。	
+		\end{Algo}
 		
 		下面我们定义权重函数 $\gamma_u$。
-		我们首先定义一个数值函数 $xi:\mathbb{R}\rightarrow \mathbb{R}$：
-		\begin{equation}
-			\xi(t)=
-			\begin{aligned}
-				\left\{
-					\begin{array}{lr}
-						1, & t\leq H_1, \\
-						0, & t\geq H_2, \\
-						\dfrac 1{1+e^{2s}}, & \rm{otherwise}\\
-					\end{array}
-				\right.
-			\end{aligned}
-		\end{equation}
-		其中 $H_1,H_2$ 是常数，$0<H_1<H_2<1$，
-		$s = \dfrac{1}{\sqrt{1-H}} - \dfrac{1}{\sqrt H},H = \dfrac{t-H_1}{H_2-H_1}$
-		$\xi(t)$ 在 $t\leq H_1$ 和 $t\geq H_2$ 时是常值，在 $H_1<t<H_2$ 时严格递减，且是 $C^{\infty}$ 的内部。
-		它的任意阶导数均在 $t\leq H_1$ 和 $t\geq H_2$ 时为零，在 $t\in (H_1,H_2)$ 时非零。
-
+		\begin{Def}
+			我们首先定义一个数值函数 $xi:\mathbb{R}\rightarrow \mathbb{R}$：
+			\begin{equation}
+				\xi(t)=
+				\begin{aligned}
+					\left\{
+						\begin{array}{lr}
+							1, & t\leq H_1, \\
+							0, & t\geq H_2, \\
+							\dfrac 1{1+e^{2s}}, & \rm{otherwise}\\
+						\end{array}
+					\right.
+				\end{aligned}
+			\end{equation}
+			其中 $H_1,H_2$ 是常数，$0<H_1<H_2<1$，
+			$s = \dfrac{1}{\sqrt{1-H}} - \dfrac{1}{\sqrt H},H = \dfrac{t-H_1}{H_2-H_1}$
+		\end{Def}
+		\begin{Rmk}
+			$\xi(t)$ 在 $t\leq H_1$ 和 $t\geq H_2$ 时是常值，在 $H_1<t<H_2$ 时严格递减，且是 $C^{\infty}$ 的内部。
+			它的任意阶导数均在 $t\leq H_1$ 和 $t\geq H_2$ 时为零，在 $t\in (H_1,H_2)$ 时非零。
+		\end{Rmk}
+		
 		\begin{Def}\label{WF-def}
 			对任意 $u\in I$，定义
 			参数区域 $\Omega_u$ 对应的权重函数 $\gamma_u:\mathbb{R}^2\rightarrow \mathbb{R}$ 为
 			$\gamma_u(p) = \xi(\sqrt{x^2+y^2}),p=(x,y)\in \mathbb{R}^2$
 			通常我们取 $H_1=0.25H_2,H_2=\cos\dfrac{\pi}{m_u}$。
 		\end{Def}
+
+		\begin{Rmk}
+			根据构造，函数 $\gamma_u$ 在其支集 $\rm{supp}(\gamma_u)$，即 $\Omega_u$ 的参数域上是恒正的。
+			注意 $\gamma_u$ 在 $p=(0,0)$ 及其邻域 $\{q\in \Omega_u|\Vert p-q\Vert < H_1\}$ 上达到最大值 $1$。
+			进一步地，函数 $\gamma_u$ 在 $p$ 向 $\Omega_u$ 的边界移动时减少，且在 $\Omega_u$ 外消失。
+			因为对 $q\in \mathbb{R}^2-\Omega_u$ 上都有 $\Vert p-q\Vert \geq H_2$。
+			因此，$\gamma_u$ 非负且其支集 $\rm{supp}(\gamma_u)=\Omega_u$ 是紧的。
+			最后，我们可以证明 $\gamma_u$ 也是 $C^{\infty}$ 的。
+		\end{Rmk}
+
+		\begin{Def}\label{PF-def}
+			对每个顶点 $u\in I$，
+			定义区域 $\Omega_u$ 对应的参数化函数 $\theta_u:\Omega_u\rightarrow \theta_u(\Omega_u)\subset \mathbb{R}^2$ 为
+			\begin{equation}\label{theta_u}
+				\theta_u(p) = \sum_{v\in J_u(p)} \omega_{vu}(p)\times (\psi_v\circ \phi_{vu}(p)),p\in \Omega_u,
+			\end{equation}
+			其中
+			\begin{equation}
+				\omega_{vu}(p) = \dfrac{\gamma_u\circ \phi_{vu}(p)}{\sum_{w\in J_u(p)}\gamma_w\circ \phi_{wu}(p)},
+			\end{equation}
+			\begin{equation}
+				J_u(p) = \{v|p\in \Omega_{uv}\} \subset I.
+			\end{equation}
+		\end{Def}
+
+		\begin{Rmk}
+			注意 $J_u(p),p\in \Omega_u$ 一定包含顶点 $u$ 和 1 或 2 个其他顶点
+			（最多两个参数区域在 $p$ 点处与 $\Omega_u$ 粘连）。
+			因此，\ref{theta_u} 式中 $\psi_v\circ \phi_{vu}(p)$ 这一项可看作 $\psi_v$ 对 $\theta_u(p)$ 的贡献。
+			这个贡献有一个“权重” $\omega_{vu}(p)$。
+			根据权重函数的构造，权重都是非负的且总和为 $1$。
+			因此，对一切 $v\in J_u(p)$，$\theta_u(p)$ 是 $\psi_v\circ \phi_{vu}(p)$ 的一个凸组合。
+		\end{Rmk}
+
+		\begin{Rmk}
+			我们如此定义 $theta_u$ 的原因是我们需要满足对任意 $v\in J_u(p)$ 均满足 $\theta_u(p) = \theta_v(\phi_{vu}(p))$，
+			从而保证 $S = \cup_{u\in I}\theta_u(\Omega_u)$ 是一个满足定义 \ref{PPM-def} 的参数伪曲面。
+			然而形状函数 $\psi_u$ 和 $\psi_v$ 极有可能不满足定义中的条件。
+			我们用于定义 $\theta_u$ 的技术是基于“统一划分”的概念，这是一种众所周知的从点集重建隐式曲面的关键方法。
+		\end{Rmk}
 
 \end{document}
