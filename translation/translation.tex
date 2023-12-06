@@ -181,7 +181,7 @@
 	我们的目标是构造一个曲面 $S\subset \mathbb{R}^3$ 拟合给定的三角网格 $\mathcal{T}$
 	且保持它的基空间 $|\mathcal{T}|$ （$\mathcal{T}$ 的顶点、边和三角面之并）的拓扑性质。
 	我们还假设 $|\mathcal{T}|$ 是 $\mathbb{R}^3$ 中具有空边界的曲面。
-	最后，为构造 $S$，我们的构造定义了 PPS 的一组粘合集和一组参数化。
+	最后，为构造 $S$，我们的构造定义了 PPS 的一组粘合集和一组参数化函数。
 
 	其中，粘合集
 	$\mathcal{G} = ((\Omega_i)_{i\in I},(\Omega_{ij})_{(i,j)\in I\times I},(\varphi_{ji})_{(i,j)\in K})$
@@ -202,7 +202,7 @@
 			使用下表 $(u,v),(v,u),uv,vu$ 表示与 $[u,v]$ 有关的元素。
 		\end{Rmk}
 
-		\begin{Def}
+		\begin{Def}\label{PD-def}
 			对所有 $u\in I$，定义参数区域 $\Omega_u$ 为
 			\begin{equation}
 				\Omega_u=\{(x,y)\in \mathbb{R}^2|x^2+y^2<\cos^2(\dfrac{\pi}{m_u})\}.
@@ -282,6 +282,135 @@
 		同理，$R_{(u,v)}^{-1}$ 也是绕 $(0,0)$ 的旋转变换，
 		将 $[s_v(v) = v', v'_0]$ 映射到 $[v',v'_j]$，其中 $j$ 满足 $s_v(u) = v'_j$。
 
+		函数 $g_{(u,v)}$ 的直观解释如下：
+		它将 $C_u$ 的扇形区域 $A$ 的透镜形子集映射到 $C_v$ 的扇形区域 $B$ 的透镜形子集中。
+		$A$ 和 $B$ 关系如下：
+		设 $w$ 和 $z$ 满足 $[u,v,w]$ 和 $[u,v,z]$ 是 $\mathcal{T}$ 中公共边为 $[u,v]$ 的两个三角形。
+		则扇形 $A$ 是 $C_u$ 包含四边形 $[s_u(u)=u',s_u(w),s_u(v),s_u(z)]$ 的扇形区域，
+		扇形 $B$ 是 $C_v$ 包含四边形 $[s_v(v)=v',s_v(z),s_v(u),s_v(w)]$ 的扇形区域。
+		函数 $g_{(u,v)}$ 同样是一个双射，且其逆 $g_{(u,v)}^{-1}$ 等于 $g_{(v,u)}$。
 		
+		$g_{(u,v)}$ 在粘连区域和转换函数的定义中有重要作用。
+
+		\begin{Def}\label{GD-def}
+			对任意 $u,v\in I$，定义粘合区域 $\Omega_{uv}$ 如下：
+			\begin{equation}
+				\Omega_{uv} = 
+				\begin{aligned}
+					\left\{
+						\begin{array}{lr}
+							\Omega_u, & u = v, \\
+							g_{v,u}(\Omega_v)\cap \Omega_u, & [u,v]\in \mathcal{T}, \\
+							\emptyset, & \rm{otherwise}.
+						\end{array}
+					\right.
+				\end{aligned}
+			\end{equation}
+		\end{Def}
+		我们可以证明上面的定义是满足定义 \ref{PGM-def} 中的条件 2 的。
+		特别地，$\Omega_{uv} = \emptyset$ 当且仅当 $\Omega_{vu} = \emptyset$ 这个事实
+		对以一致的方式定义转换函数至关重要。
+		下面我们给出转换函数的形式定义：
+		
+		\begin{Def}\label{TF-def}
+			设 $K$ 是指标集
+			\begin{equation}
+				K = \{(u,v)\in I\times I|\Omega_{uv}\neq 0\}.
+			\end{equation}
+			则对任意 $(u,v)\in K$，转换函数 $\phi_{vu}:\Omega_{uv}\rightarrow \Omega_{vu}$ 定义为
+			\begin{equation}
+				\phi_{vu}(p) = 
+				\begin{aligned}
+					\left\{
+						\begin{array}{lr}
+							g_{(u,v)}(p), & u\neq v, \\
+							p, & u = v.
+						\end{array}
+					\right.
+				\end{aligned}
+			\end{equation}
+		\end{Def}
+
+		转换函数是双射且 $C^{\infty}$ 连续的，
+		因为 $g_{(u,v)}$ 是 $C^\infty$ 连续双射函数的复合。
+	
+	\subsection{参数化函数的构造}
+		设 $\mathcal{G}$ 是由三角网格 $\mathcal{T}$ 构造的粘连集。
+		我们的目标是由 $\mathcal{G}$ 定义一族参数化函数 $\{\theta_u\}_{u\in I}$。
+		为此，我们设 $|\mathcal{T}|$ 的近似为 $S'\subset \mathbb{R}^3$。
+		更具体地，我们假设 $S'$ 是有限多个参数曲面片之并，即
+		$S' = \cup_{\sigma\in \mathcal{T}}b_{\sigma}(\triangle),b_{\sigma}: \mathbb{R}^2 \rightarrow \mathbb{R}^3$，
+		每个曲面片都对应 $\mathcal{T}$ 的一个三角形 $\sigma$ 且每个 $b_\sigma$ 的定义域都相同：$\triangle \subset \mathbb{R}^2$。
+		另外，我们要求 $S'$ 至少是 $C^0$ 连续的。
+		$S'$ 应通过参数化函数来描述。
+		为定义参数化函数 $\theta_u$，我们定义了一族形状函数 $\{\psi_u\}_{u\in I}$ 和一族权重函数 $\{\gamma_u\}_{u\in I}$。
+		
+		\begin{Def}\label{SF-def}
+			对 $u\in I$，我们定义形状函数 $psi_u:\square_u\subset \mathbb{R}^2\rightarrow \mathbb{R}^3$
+			表示区域 $\Omega_u$ 对应的 $(m,n)$ 阶贝塞尔曲面片：
+			\begin{equation}
+				\psi_u(p) = \sum_{j=0}^m\sum_{k=0}^n b_{j,k}^u B_j^m(x) B_k^n(y),
+			\end{equation}
+			其中 $\square_u = [-L,L]^2,L=\cos(\dfrac{\pi}{m_u})$，
+			$(x,y)$ 是 $p\in \square_u$ 的平面坐标，
+			$\{b_{j,k}^u\in \mathbb{R}^3\}$ 是控制点，
+			\begin{equation}
+				B_i^l(t)=\dbinom{l}{i}\left(\dfrac{L-t}{2L}\right)^{l-i}\left(\dfrac{L+t}{2L}\right)^i
+			\end{equation}
+			是区间 $[-L,L]\subset \mathbb{R}$ 上的第 $i$ 个 $l$ 阶伯恩斯坦多项式。
+			称 $\psi_u$ 的阶数为 $(m_u+1,m_u+1)$。
+		\end{Def}
+
+		我们通过求解最小二乘问题来确定控制点 $\{b_{j,k}^u\}$。
+		事实上，$\{b_{j,k}^u\}$ 应该唯一确定一个贝塞尔曲面，
+		使得它是集合 $P$ 的最小二乘意义下的最佳逼近。
+		$P$ 是一个点对集合 $\{q,p|q\in P_u,p\in S'\}$，
+		我们迭代计算 $P$。即
+		
+		\begin{enumerate}
+			\item 初始 $P=\emptyset$。
+			\item
+				对 $\psi_u$ 的定义域 $\square_u = [-L,L]^2$ 均匀采样 $4(m_u+1)$ 个点得到集合 $Q\subset P_u$。
+				注意 $\square_u$ 是最小的包含 $\Omega_u$ 的四边形，
+				还要注意 $\square_u$ 均匀采样得到的点将包含不在 $P_u$ 中的点。
+				这些点将不放入 $Q$ 中。
+			\item
+				对每个 $q\in Q$，我们找到三角形 $\tau \in \mathcal{T}$ 使得
+				$q$ 包含于三角形 $s_u(\tau)\in T_u$ 中。
+			\item
+				计算 $q$ 相对于 $s_u(\tau)$ 的重心坐标 $(\lambda,\nu,\eta)$，
+				令 $r=\lambda a+\nu b+\eta c\in \triangle=[a,b,c]$，
+				$\triangle$ 是本节开头定义的 $b_{\sigma}$ 的公共定义域。
+			\item
+				计算 $p=b_{\tau}(r)$，将点对 $(q,p)$ 加入 $P$ 中。
+		\end{enumerate}
+
+		当 $P$ 被计算出之后，我们使用标准最小二乘算法计算 $\{b_{j,k}^u\}$ 来拟合曲面。
+		
+		下面我们定义权重函数 $\gamma_u$。
+		我们首先定义一个数值函数 $xi:\mathbb{R}\rightarrow \mathbb{R}$：
+		\begin{equation}
+			\xi(t)=
+			\begin{aligned}
+				\left\{
+					\begin{array}{lr}
+						1, & t\leq H_1, \\
+						0, & t\geq H_2, \\
+						\dfrac 1{1+e^{2s}}, & \rm{otherwise}\\
+					\end{array}
+				\right.
+			\end{aligned}
+		\end{equation}
+		其中 $H_1,H_2$ 是常数，$0<H_1<H_2<1$，
+		$s = \dfrac{1}{\sqrt{1-H}} - \dfrac{1}{\sqrt H},H = \dfrac{t-H_1}{H_2-H_1}$
+		$\xi(t)$ 在 $t\leq H_1$ 和 $t\geq H_2$ 时是常值，在 $H_1<t<H_2$ 时严格递减，且是 $C^{\infty}$ 的内部。
+		它的任意阶导数均在 $t\leq H_1$ 和 $t\geq H_2$ 时为零，在 $t\in (H_1,H_2)$ 时非零。
+
+		\begin{Def}\label{WF-def}
+			对任意 $u\in I$，定义
+			参数区域 $\Omega_u$ 对应的权重函数 $\gamma_u:\mathbb{R}^2\rightarrow \mathbb{R}$ 为
+			$\gamma_u(p) = \xi(\sqrt{x^2+y^2}),p=(x,y)\in \mathbb{R}^2$
+			通常我们取 $H_1=0.25H_2,H_2=\cos\dfrac{\pi}{m_u}$。
+		\end{Def}
 
 \end{document}
